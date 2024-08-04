@@ -35,11 +35,11 @@ public class PullingJump : MonoBehaviour
             if (jumpCount < maxJumpCount)
             {
                 // ドラッグと逆方向のベクトルを計算する
-                Vector3 dragVector = clickPosition + Input.mousePosition;
+                Vector3 dragVector = clickPosition - Input.mousePosition;
                 // ドラッグのベクトルの距離を求める
                 float size = dragVector.magnitude;
                 // ジャンプする
-                rb.velocity = dragVector.normalized * jumpPower;
+                rb.velocity = -dragVector.normalized * jumpPower;
                 jumpCount++;
                 Debug.Log(jumpCount);
                 //audio.Play();
@@ -52,11 +52,12 @@ public class PullingJump : MonoBehaviour
         // 衝突面の角度によってジャンプ可能か判定する
         //Vector3 normal = collision.contacts[0].normal;  // 法線をとってくる
         //canJump = CanJump(normal);
+        canJump = true;
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        //canJump = false;
+        canJump = false;
         //Debug.Log("離れた");
     }
 
