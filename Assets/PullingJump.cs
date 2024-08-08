@@ -29,21 +29,31 @@ public class PullingJump : MonoBehaviour
             // ドラッグ開始位置（スクリーン空間の座標）を保存する
             clickPosition = Input.mousePosition;
         }   // マウス左ボタン(0)がプレス（押下）されたことを検出する
-        else if (canJump && Input.GetMouseButtonUp(0))
+        //else if (canJump && Input.GetMouseButtonUp(0))
+        //{
+        //    Debug.Log(jumpCount);
+        //    if (jumpCount < maxJumpCount)
+        //    {
+        //        // ドラッグと逆方向のベクトルを計算する
+        //        Vector3 dragVector = clickPosition - Input.mousePosition;
+        //        // ドラッグのベクトルの距離を求める
+        //        float size = dragVector.magnitude;
+        //        // ジャンプする
+        //        rb.velocity = dragVector.normalized * jumpPower;
+        //        jumpCount++;
+        //        Debug.Log(jumpCount);
+        //        //audio.Play();
+        //    }
+        //}
+        if(Input.GetMouseButtonDown(0))
         {
-            Debug.Log(jumpCount);
-            if (jumpCount < maxJumpCount)
-            {
-                // ドラッグと逆方向のベクトルを計算する
-                Vector3 dragVector = clickPosition - Input.mousePosition;
-                // ドラッグのベクトルの距離を求める
-                float size = dragVector.magnitude;
-                // ジャンプする
-                rb.velocity = -dragVector.normalized * jumpPower;
-                jumpCount++;
-                Debug.Log(jumpCount);
-                //audio.Play();
-            }
+            clickPosition = Input.mousePosition;
+        }
+        if(canJump && Input.GetMouseButtonUp(0))
+        {
+            Vector3 dist = clickPosition - Input.mousePosition;
+            if(dist.magnitude == 0) { return; }
+            rb.velocity = dist.normalized * jumpPower;
         }
     }
 
@@ -64,8 +74,8 @@ public class PullingJump : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // 衝突面の角度によってジャンプ可能か判定する
-        Vector3 normal = collision.contacts[0].normal;  // 法線をとってくる
-        canJump = CanJump(normal);
+        //Vector3 normal = collision.contacts[0].normal;  // 法線をとってくる
+        //canJump = CanJump(normal);
         //Debug.Log(collision.gameObject.name + " と衝突した");
     }
 
